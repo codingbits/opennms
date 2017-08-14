@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of OpenNMS(R).
  *
- * Copyright (C) 2006-2014 The OpenNMS Group, Inc.
- * OpenNMS(R) is Copyright (C) 1999-2014 The OpenNMS Group, Inc.
+ * Copyright (C) 2017-2017 The OpenNMS Group, Inc.
+ * OpenNMS(R) is Copyright (C) 1999-2017 The OpenNMS Group, Inc.
  *
  * OpenNMS(R) is a registered trademark of The OpenNMS Group, Inc.
  *
@@ -33,16 +33,26 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.Date;
 
-@XmlRootElement(name = "serviceType")
+@XmlRootElement(name="memo")
 @XmlAccessorType(XmlAccessType.NONE)
-public class ServiceTypeDTO {
+public class MemoDTO {
 
     @XmlAttribute(name="id")
     private Integer id;
 
-    @XmlElement(name="name")
-    private String name;
+    @XmlElement(name="body")
+    private String body;
+
+    @XmlElement(name="author")
+    private String author;
+
+    @XmlElement(name="updated")
+    private Date updated;
+
+    @XmlElement(name="created")
+    private Date created;
 
     public Integer getId() {
         return id;
@@ -52,11 +62,35 @@ public class ServiceTypeDTO {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getBody() {
+        return body;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public Date getUpdated() {
+        return updated;
+    }
+
+    public void setUpdated(Date updated) {
+        this.updated = updated;
+    }
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }

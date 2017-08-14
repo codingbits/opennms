@@ -29,30 +29,69 @@
 package org.opennms.web.rest.mapper;
 
 import org.mapstruct.AfterMapping;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
-import org.opennms.netmgt.config.api.EventConfDao;
 import org.opennms.netmgt.model.OnmsAlarm;
 import org.opennms.netmgt.model.OnmsEvent;
-import org.opennms.web.rest.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.opennms.netmgt.model.OnmsEventParameter;
+import org.opennms.netmgt.model.TroubleTicketState;
+import org.opennms.web.rest.model.AlarmDTO;
+import org.opennms.web.rest.model.EventDTO;
+import org.opennms.web.rest.model.EventParameterDTO;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", uses = {EventMapper.class})
 public abstract class AlarmMapper {
 
-    public static final AlarmMapper INSTANCE = Mappers.getMapper(AlarmMapper.class);
-
     @Mappings({
             @Mapping(source = "distPoller.location", target = "location"),
+            @Mapping(source = "ipAddr", target = "ipAddress"),
+            @Mapping(source = "alarmType", target = "type"),
+            @Mapping(source = "severityLabel", target = "severity"),
+            @Mapping(source = "logMsg", target = "logMessage"),
+            @Mapping(source = "operInstruct", target = "operatorInstructions"),
+            @Mapping(source = "TTicketId", target = "troubleTicket"),
+            @Mapping(source = "TTicketState", target = "troubleTicketState"),
+            @Mapping(source = "alarmAckUser", target = "ackUser"),
+            @Mapping(source = "alarmAckTime", target = "ackTime"),
+            @Mapping(source = "suppressedUser", target = "suppressedBy")
     })
     public abstract AlarmDTO alarmToAlarmDTO(OnmsAlarm alarm);
 
+    @InheritInverseConfiguration
+    public abstract OnmsAlarm alarmDTOToAlarm(AlarmDTO alarm);
+
     @AfterMapping
     protected void fillAlarm(OnmsAlarm alarm, @MappingTarget AlarmDTO alarmDTO) {
-        // pass
+        final List<OnmsEventParameter> eventParms = alarm.getEventParameters();
+        if (eventParms != null) {
+            alarmDTO.setParameters(eventParms.stream()
+                    .map(this::eventParameterToEventParameterDTO)
+                    .collect(Collectors.toList()));
+        }
     }
+
+    protected Integer mapTicketStateToInt(TroubleTicketState state) {
+        if (state == null) {
+            return null;
+        }
+        return state.getValue();
+    }
+
+    protected TroubleTicketState mapIntToTicketState(Integer value) {
+        return  Arrays.stream(TroubleTicketState.values())
+                    .filter(s -> Objects.equals(value, s.getValue()))
+                    .findFirst()
+                    .orElse(null);
+    }
+
+    public abstract EventParameterDTO eventParameterToEventParameterDTO(OnmsEventParameter eventParameter);
 
 }

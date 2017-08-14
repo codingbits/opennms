@@ -28,95 +28,141 @@
 
 package org.opennms.web.rest.model;
 
-import org.opennms.netmgt.model.OnmsMemo;
-import org.opennms.netmgt.model.OnmsReductionKeyMemo;
-import org.opennms.netmgt.model.OnmsServiceType;
-import org.opennms.netmgt.model.OnmsSeverity;
-import org.opennms.netmgt.model.TroubleTicketState;
+import org.opennms.core.network.InetAddressXmlAdapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.net.InetAddress;
 import java.util.Date;
-import java.util.Map;
+import java.util.List;
 
+@XmlRootElement(name="alarm")
+@XmlAccessorType(XmlAccessType.NONE)
 public class AlarmDTO {
 
+    @XmlAttribute(name="id")
     private Integer id;
 
+    @XmlElement(name="uei")
     private String uei;
 
-    // From OnmsMonitoringSystem.distPoller
+    @XmlElement(name="location")
     private String location;
 
-    private InetAddress ipAddr;
+    @XmlElement(name="nodeId")
+    private Integer nodeId;
 
-    private OnmsServiceType serviceType;
+    @XmlElement(name="nodeLabel")
+    private String nodeLabel;
 
+    @XmlElement(name="ipAddress")
+    @XmlJavaTypeAdapter(InetAddressXmlAdapter.class)
+    private InetAddress ipAddress;
+
+    @XmlElement(name = "serviceType")
+    private ServiceTypeDTO serviceType;
+
+    @XmlElement(name="reductionKey")
     private String reductionKey;
 
-    private Integer alarmType;
+    @XmlAttribute(name="type")
+    private Integer type;
 
-    private Integer ifIndex;
+    @XmlAttribute(name="count")
+    private Integer count;
 
-    private Integer counter;
+    @XmlAttribute(name="severity")
+    private String severity;
 
-    private OnmsSeverity severity = OnmsSeverity.INDETERMINATE;
-
+    @XmlElement(name="firstEventTime")
     private Date firstEventTime;
 
-    private Date lastEventTime;
-
-    private Date firstAutomationTime;
-
-    private Date lastAutomationTime;
-
+    @XmlElement(name="description")
     private String description;
 
-    private String logMsg;
+    @XmlElement(name="logMessage")
+    private String logMessage;
 
-    private String operInstruct;
+    @XmlElement(name="operatorInstructions")
+    private String operatorInstructions;
 
-    private String tTicketId;
+    @XmlElement(name="troubleTicket")
+    private String troubleTicket;
 
-    private TroubleTicketState tTicketState;
+    @XmlElement(name="troubleTicketState")
+    private Integer troubleTicketState;
 
+    @XmlElement(name="mouseOverText")
     private String mouseOverText;
 
+    @XmlElement(name="suppressedUntil")
     private Date suppressedUntil;
 
-    private String suppressedUser;
+    @XmlElement(name="suppressedBy")
+    private String suppressedBy;
 
+    @XmlElement(name="suppressedTime")
     private Date suppressedTime;
 
-    private String alarmAckUser;
+    @XmlElement(name="ackUser")
+    private String ackUser;
 
-    private Date alarmAckTime;
+    @XmlElement(name="ackTime")
+    private String ackTime;
 
+    @XmlElement(name="clearKey")
     private String clearKey;
 
+    @XmlElement(name="lastEvent")
     private EventDTO lastEvent;
 
-    private String eventParms;
+    @XmlElementWrapper(name="parameters")
+    @XmlElement(name="parameter")
+    private List<EventParameterDTO> parameters;
 
-    private String managedObjectInstance;
+    @XmlElement(name="lastEventTime")
+    private Date lastEventTime;
 
-    private String managedObjectType;
-
+    @XmlElement(name="applicationDN")
     private String applicationDN;
 
+    @XmlElement(name="managedObjectInstance")
+    private String managedObjectInstance;
+
+    @XmlElement(name="managedObjectType")
+    private String managedObjectType;
+
+    @XmlElement(name="ossPrimaryKey")
     private String ossPrimaryKey;
 
+    @XmlElement(name="x733AlarmType")
     private String x733AlarmType;
 
+    @XmlElement(name="x733ProbableCause")
+    private Integer x733ProbableCause;
+
+    @XmlElement(name="qosAlarmState")
     private String qosAlarmState;
 
-    private int x733ProbableCause;
+    @XmlElement(name="firstAutomationTime")
+    private Date firstAutomationTime;
 
-    private Map<String, String> details;
+    @XmlElement(name="lastAutomationTime")
+    private Date lastAutomationTime;
 
-    private OnmsMemo stickyMemo;
+    @XmlAttribute(name="ifIndex")
+    private Integer ifIndex;
 
-    private OnmsReductionKeyMemo reductionKeyMemo;
+    @XmlElement(name="reductionKeyMemo")
+    private ReductionKeyMemoDTO reductionKeyMemo;
 
+    @XmlElement(name="stickyMemo")
+    private MemoDTO stickyMemo;
 
     public Integer getId() {
         return id;
@@ -142,19 +188,35 @@ public class AlarmDTO {
         this.location = location;
     }
 
-    public InetAddress getIpAddr() {
-        return ipAddr;
+    public Integer getNodeId() {
+        return nodeId;
     }
 
-    public void setIpAddr(InetAddress ipAddr) {
-        this.ipAddr = ipAddr;
+    public void setNodeId(Integer nodeId) {
+        this.nodeId = nodeId;
     }
 
-    public OnmsServiceType getServiceType() {
+    public String getNodeLabel() {
+        return nodeLabel;
+    }
+
+    public void setNodeLabel(String nodeLabel) {
+        this.nodeLabel = nodeLabel;
+    }
+
+    public InetAddress getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(InetAddress ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public ServiceTypeDTO getServiceType() {
         return serviceType;
     }
 
-    public void setServiceType(OnmsServiceType serviceType) {
+    public void setServiceType(ServiceTypeDTO serviceType) {
         this.serviceType = serviceType;
     }
 
@@ -166,35 +228,27 @@ public class AlarmDTO {
         this.reductionKey = reductionKey;
     }
 
-    public Integer getAlarmType() {
-        return alarmType;
+    public Integer getType() {
+        return type;
     }
 
-    public void setAlarmType(Integer alarmType) {
-        this.alarmType = alarmType;
+    public void setType(Integer type) {
+        this.type = type;
     }
 
-    public Integer getIfIndex() {
-        return ifIndex;
+    public Integer getCount() {
+        return count;
     }
 
-    public void setIfIndex(Integer ifIndex) {
-        this.ifIndex = ifIndex;
+    public void setCount(Integer count) {
+        this.count = count;
     }
 
-    public Integer getCounter() {
-        return counter;
-    }
-
-    public void setCounter(Integer counter) {
-        this.counter = counter;
-    }
-
-    public OnmsSeverity getSeverity() {
+    public String getSeverity() {
         return severity;
     }
 
-    public void setSeverity(OnmsSeverity severity) {
+    public void setSeverity(String severity) {
         this.severity = severity;
     }
 
@@ -206,30 +260,6 @@ public class AlarmDTO {
         this.firstEventTime = firstEventTime;
     }
 
-    public Date getLastEventTime() {
-        return lastEventTime;
-    }
-
-    public void setLastEventTime(Date lastEventTime) {
-        this.lastEventTime = lastEventTime;
-    }
-
-    public Date getFirstAutomationTime() {
-        return firstAutomationTime;
-    }
-
-    public void setFirstAutomationTime(Date firstAutomationTime) {
-        this.firstAutomationTime = firstAutomationTime;
-    }
-
-    public Date getLastAutomationTime() {
-        return lastAutomationTime;
-    }
-
-    public void setLastAutomationTime(Date lastAutomationTime) {
-        this.lastAutomationTime = lastAutomationTime;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -238,36 +268,36 @@ public class AlarmDTO {
         this.description = description;
     }
 
-    public String getLogMsg() {
-        return logMsg;
+    public String getLogMessage() {
+        return logMessage;
     }
 
-    public void setLogMsg(String logMsg) {
-        this.logMsg = logMsg;
+    public void setLogMessage(String logMessage) {
+        this.logMessage = logMessage;
     }
 
-    public String getOperInstruct() {
-        return operInstruct;
+    public String getOperatorInstructions() {
+        return operatorInstructions;
     }
 
-    public void setOperInstruct(String operInstruct) {
-        this.operInstruct = operInstruct;
+    public void setOperatorInstructions(String operatorInstructions) {
+        this.operatorInstructions = operatorInstructions;
     }
 
-    public String gettTicketId() {
-        return tTicketId;
+    public String getTroubleTicket() {
+        return troubleTicket;
     }
 
-    public void settTicketId(String tTicketId) {
-        this.tTicketId = tTicketId;
+    public void setTroubleTicket(String troubleTicket) {
+        this.troubleTicket = troubleTicket;
     }
 
-    public TroubleTicketState gettTicketState() {
-        return tTicketState;
+    public Integer getTroubleTicketState() {
+        return troubleTicketState;
     }
 
-    public void settTicketState(TroubleTicketState tTicketState) {
-        this.tTicketState = tTicketState;
+    public void setTroubleTicketState(Integer troubleTicketState) {
+        this.troubleTicketState = troubleTicketState;
     }
 
     public String getMouseOverText() {
@@ -286,12 +316,12 @@ public class AlarmDTO {
         this.suppressedUntil = suppressedUntil;
     }
 
-    public String getSuppressedUser() {
-        return suppressedUser;
+    public String getSuppressedBy() {
+        return suppressedBy;
     }
 
-    public void setSuppressedUser(String suppressedUser) {
-        this.suppressedUser = suppressedUser;
+    public void setSuppressedBy(String suppressedBy) {
+        this.suppressedBy = suppressedBy;
     }
 
     public Date getSuppressedTime() {
@@ -302,20 +332,20 @@ public class AlarmDTO {
         this.suppressedTime = suppressedTime;
     }
 
-    public String getAlarmAckUser() {
-        return alarmAckUser;
+    public String getAckUser() {
+        return ackUser;
     }
 
-    public void setAlarmAckUser(String alarmAckUser) {
-        this.alarmAckUser = alarmAckUser;
+    public void setAckUser(String ackUser) {
+        this.ackUser = ackUser;
     }
 
-    public Date getAlarmAckTime() {
-        return alarmAckTime;
+    public String getAckTime() {
+        return ackTime;
     }
 
-    public void setAlarmAckTime(Date alarmAckTime) {
-        this.alarmAckTime = alarmAckTime;
+    public void setAckTime(String ackTime) {
+        this.ackTime = ackTime;
     }
 
     public String getClearKey() {
@@ -334,12 +364,28 @@ public class AlarmDTO {
         this.lastEvent = lastEvent;
     }
 
-    public String getEventParms() {
-        return eventParms;
+    public List<EventParameterDTO> getParameters() {
+        return parameters;
     }
 
-    public void setEventParms(String eventParms) {
-        this.eventParms = eventParms;
+    public void setParameters(List<EventParameterDTO> parameters) {
+        this.parameters = parameters;
+    }
+
+    public Date getLastEventTime() {
+        return lastEventTime;
+    }
+
+    public void setLastEventTime(Date lastEventTime) {
+        this.lastEventTime = lastEventTime;
+    }
+
+    public String getApplicationDN() {
+        return applicationDN;
+    }
+
+    public void setApplicationDN(String applicationDN) {
+        this.applicationDN = applicationDN;
     }
 
     public String getManagedObjectInstance() {
@@ -358,14 +404,6 @@ public class AlarmDTO {
         this.managedObjectType = managedObjectType;
     }
 
-    public String getApplicationDN() {
-        return applicationDN;
-    }
-
-    public void setApplicationDN(String applicationDN) {
-        this.applicationDN = applicationDN;
-    }
-
     public String getOssPrimaryKey() {
         return ossPrimaryKey;
     }
@@ -382,6 +420,14 @@ public class AlarmDTO {
         this.x733AlarmType = x733AlarmType;
     }
 
+    public Integer getX733ProbableCause() {
+        return x733ProbableCause;
+    }
+
+    public void setX733ProbableCause(Integer x733ProbableCause) {
+        this.x733ProbableCause = x733ProbableCause;
+    }
+
     public String getQosAlarmState() {
         return qosAlarmState;
     }
@@ -390,35 +436,43 @@ public class AlarmDTO {
         this.qosAlarmState = qosAlarmState;
     }
 
-    public int getX733ProbableCause() {
-        return x733ProbableCause;
+    public Date getFirstAutomationTime() {
+        return firstAutomationTime;
     }
 
-    public void setX733ProbableCause(int x733ProbableCause) {
-        this.x733ProbableCause = x733ProbableCause;
+    public void setFirstAutomationTime(Date firstAutomationTime) {
+        this.firstAutomationTime = firstAutomationTime;
     }
 
-    public Map<String, String> getDetails() {
-        return details;
+    public Date getLastAutomationTime() {
+        return lastAutomationTime;
     }
 
-    public void setDetails(Map<String, String> details) {
-        this.details = details;
+    public void setLastAutomationTime(Date lastAutomationTime) {
+        this.lastAutomationTime = lastAutomationTime;
     }
 
-    public OnmsMemo getStickyMemo() {
-        return stickyMemo;
+    public Integer getIfIndex() {
+        return ifIndex;
     }
 
-    public void setStickyMemo(OnmsMemo stickyMemo) {
-        this.stickyMemo = stickyMemo;
+    public void setIfIndex(Integer ifIndex) {
+        this.ifIndex = ifIndex;
     }
 
-    public OnmsReductionKeyMemo getReductionKeyMemo() {
+    public ReductionKeyMemoDTO getReductionKeyMemo() {
         return reductionKeyMemo;
     }
 
-    public void setReductionKeyMemo(OnmsReductionKeyMemo reductionKeyMemo) {
+    public void setReductionKeyMemo(ReductionKeyMemoDTO reductionKeyMemo) {
         this.reductionKeyMemo = reductionKeyMemo;
+    }
+
+    public MemoDTO getStickyMemo() {
+        return stickyMemo;
+    }
+
+    public void setStickyMemo(MemoDTO stickyMemo) {
+        this.stickyMemo = stickyMemo;
     }
 }

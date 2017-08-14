@@ -29,6 +29,7 @@
 package org.opennms.web.rest.mapper;
 
 import org.mapstruct.AfterMapping;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -79,9 +80,13 @@ public abstract class EventMapper {
             @Mapping(source = "eventDisplay", target = "display"),
             @Mapping(source = "eventAckUser", target = "ackUser"),
             @Mapping(source = "eventAckTime", target = "ackTime"),
-            @Mapping(source = "distPoller.location", target = "location")
+            @Mapping(source = "distPoller.location", target = "location"),
+            @Mapping(source = "severityLabel", target = "severity")
     })
     public abstract EventDTO eventToEventDTO(OnmsEvent event);
+
+    @InheritInverseConfiguration
+    public abstract OnmsEvent eventDTOToEvent(EventDTO event);
 
     public abstract ServiceTypeDTO serviceTypeToServiceTypeDTO(OnmsServiceType serviceType);
 
@@ -95,7 +100,6 @@ public abstract class EventMapper {
                     .map(this::eventParameterToEventParameterDTO)
                     .collect(Collectors.toList()));
         }
-        eventDTO.setSeverity(event.getSeverityLabel());
         eventDTO.setLabel(eventConfDao.getEventLabel(eventDTO.getUei()));
     }
 
