@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of OpenNMS(R).
  *
- * Copyright (C) 2017-2017 The OpenNMS Group, Inc.
- * OpenNMS(R) is Copyright (C) 1999-2017 The OpenNMS Group, Inc.
+ * Copyright (C) 2006-2014 The OpenNMS Group, Inc.
+ * OpenNMS(R) is Copyright (C) 1999-2014 The OpenNMS Group, Inc.
  *
  * OpenNMS(R) is a registered trademark of The OpenNMS Group, Inc.
  *
@@ -28,94 +28,126 @@
 
 package org.opennms.web.rest.model;
 
-import org.opennms.netmgt.model.OnmsAlarm;
-import org.opennms.netmgt.model.OnmsMonitoringSystem;
-import org.opennms.netmgt.model.OnmsNotification;
-import org.opennms.netmgt.model.OnmsOutage;
-import org.opennms.netmgt.model.OnmsServiceType;
+import org.opennms.core.network.InetAddressXmlAdapter;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.net.InetAddress;
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
+@XmlRootElement(name = "event")
+@XmlAccessorType(XmlAccessType.NONE)
 public class EventDTO {
 
+    @XmlAttribute(name = "id")
     private Integer id;
 
-    private String eventUei;
+    @XmlElement(name = "uei")
+    private String uei;
 
-    private Date eventTime;
-
-    private String eventHost;
-
-    private String eventSource;
-
-    private InetAddress ipAddr;
-
-    private String location;
-
-    private String eventSnmpHost;
-
-    private OnmsServiceType serviceType;
-
-    private String eventSnmp;
-
-    private String eventParms;
-
-    private Date eventCreateTime;
-
-    private String eventDescr;
-
-    private String eventLogGroup;
-
-    private String eventLogMsg;
-
-    private Integer eventSeverity;
-
-    private Integer ifIndex;
-
-    private String eventPathOutage;
-
-    private String eventCorrelation;
-
-    private Integer eventSuppressedCount;
-
-    private String eventOperInstruct;
-
-    private String eventAutoAction;
-
-    private String eventOperAction;
-
-    private String eventOperActionMenuText;
-
-    private String eventNotification;
-
-    private String eventTTicket;
-
-    private Integer eventTTicketState;
-
-    private String eventForward;
-
-    private String eventMouseOverText;
-
-    private String eventLog;
-
-    private String eventDisplay;
-
-    private String eventAckUser;
-
-    private Date eventAckTime;
-
+    @XmlElement(name = "label")
     private String label;
 
-    public String getLabel() {
-        return label;
-    }
+    @XmlElement(name = "time")
+    private Date time;
 
-    public void setLabel(String label) {
-        this.label = label;
-    }
+    @XmlElement(name = "host")
+    private String host;
+
+    @XmlElement(name = "source")
+    private String source;
+
+    @XmlElement(name = "ipAddress")
+    @XmlJavaTypeAdapter(InetAddressXmlAdapter.class)
+    private InetAddress ipAddress;
+
+    @XmlElement(name = "snmpHost")
+    private String snmpHost;
+
+    @XmlElement(name = "serviceType")
+    private ServiceTypeDTO serviceType;
+
+    @XmlElement(name = "snmp")
+    private String snmp;
+
+    @XmlElementWrapper(name = "parameters")
+    @XmlElement(name = "parameter")
+    private List<EventParameterDTO> parameters;
+
+    @XmlElement(name = "createTime")
+    private Date createTime;
+
+    @XmlElement(name = "description")
+    private String description;
+
+    @XmlElement(name = "logGroup")
+    private String logGroup;
+
+    @XmlElement(name = "logMessage")
+    private String logMessage;
+
+    @XmlAttribute(name = "severity")
+    private String severity;
+
+    @XmlElement(name = "pathOutage")
+    private String pathOutage;
+
+    @XmlElement(name = "correlation")
+    private String correlation;
+
+    @XmlElement(name = "suppressedCount")
+    private Integer suppressedCount;
+
+    @XmlElement(name = "operatorInstructions")
+    private String operatorInstructions;
+
+    @XmlElement(name = "autoAction")
+    private String autoAction;
+
+    @XmlElement(name = "operatorAction")
+    private String operatorAction;
+
+    @XmlElement(name = "operationActionMenuText")
+    private String operationActionMenuText;
+
+    @XmlElement(name = "notification")
+    private String notification;
+
+    @XmlElement(name = "troubleTicket")
+    private String troubleTicket;
+
+    @XmlElement(name = "troubleTicketState")
+    private Integer troubleTicketState;
+
+    @XmlElement(name = "mouseOverText")
+    private String mouseOverText;
+
+    @XmlAttribute(name = "log")
+    private String log;
+
+    @XmlAttribute(name = "display")
+    private String display;
+
+    @XmlElement(name = "ackUser")
+    private String ackUser;
+
+    @XmlElement(name = "ackTime")
+    private Date ackTime;
+
+    @XmlElement(name = "nodeId")
+    private Integer nodeId;
+
+    @XmlElement(name = "nodeLabel")
+    private String nodeLabel;
+
+    @XmlElement(name = "location")
+    private String location;
 
     public Integer getId() {
         return id;
@@ -125,44 +157,260 @@ public class EventDTO {
         this.id = id;
     }
 
-    public String getEventUei() {
-        return eventUei;
+    public String getUei() {
+        return uei;
     }
 
-    public void setEventUei(String eventUei) {
-        this.eventUei = eventUei;
+    public void setUei(String uei) {
+        this.uei = uei;
     }
 
-    public Date getEventTime() {
-        return eventTime;
+    public String getLabel() {
+        return label;
     }
 
-    public void setEventTime(Date eventTime) {
-        this.eventTime = eventTime;
+    public void setLabel(String label) {
+        this.label = label;
     }
 
-    public String getEventHost() {
-        return eventHost;
+    public Date getTime() {
+        return time;
     }
 
-    public void setEventHost(String eventHost) {
-        this.eventHost = eventHost;
+    public void setTime(Date time) {
+        this.time = time;
     }
 
-    public String getEventSource() {
-        return eventSource;
+    public String getHost() {
+        return host;
     }
 
-    public void setEventSource(String eventSource) {
-        this.eventSource = eventSource;
+    public void setHost(String host) {
+        this.host = host;
     }
 
-    public InetAddress getIpAddr() {
-        return ipAddr;
+    public String getSource() {
+        return source;
     }
 
-    public void setIpAddr(InetAddress ipAddr) {
-        this.ipAddr = ipAddr;
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public InetAddress getIpAddress() {
+        return ipAddress;
+    }
+
+    public void setIpAddress(InetAddress ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public String getSnmpHost() {
+        return snmpHost;
+    }
+
+    public void setSnmpHost(String snmpHost) {
+        this.snmpHost = snmpHost;
+    }
+
+    public ServiceTypeDTO getServiceType() {
+        return serviceType;
+    }
+
+    public void setServiceType(ServiceTypeDTO serviceType) {
+        this.serviceType = serviceType;
+    }
+
+    public String getSnmp() {
+        return snmp;
+    }
+
+    public void setSnmp(String snmp) {
+        this.snmp = snmp;
+    }
+
+    public List<EventParameterDTO> getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(List<EventParameterDTO> parameters) {
+        this.parameters = parameters;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getLogGroup() {
+        return logGroup;
+    }
+
+    public void setLogGroup(String logGroup) {
+        this.logGroup = logGroup;
+    }
+
+    public String getLogMessage() {
+        return logMessage;
+    }
+
+    public void setLogMessage(String logMessage) {
+        this.logMessage = logMessage;
+    }
+
+    public String getSeverity() {
+        return severity;
+    }
+
+    public void setSeverity(String severity) {
+        this.severity = severity;
+    }
+
+    public String getPathOutage() {
+        return pathOutage;
+    }
+
+    public void setPathOutage(String pathOutage) {
+        this.pathOutage = pathOutage;
+    }
+
+    public String getCorrelation() {
+        return correlation;
+    }
+
+    public void setCorrelation(String correlation) {
+        this.correlation = correlation;
+    }
+
+    public Integer getSuppressedCount() {
+        return suppressedCount;
+    }
+
+    public void setSuppressedCount(Integer suppressedCount) {
+        this.suppressedCount = suppressedCount;
+    }
+
+    public String getOperatorInstructions() {
+        return operatorInstructions;
+    }
+
+    public void setOperatorInstructions(String operatorInstructions) {
+        this.operatorInstructions = operatorInstructions;
+    }
+
+    public String getAutoAction() {
+        return autoAction;
+    }
+
+    public void setAutoAction(String autoAction) {
+        this.autoAction = autoAction;
+    }
+
+    public String getOperatorAction() {
+        return operatorAction;
+    }
+
+    public void setOperatorAction(String operatorAction) {
+        this.operatorAction = operatorAction;
+    }
+
+    public String getOperationActionMenuText() {
+        return operationActionMenuText;
+    }
+
+    public void setOperationActionMenuText(String operationActionMenuText) {
+        this.operationActionMenuText = operationActionMenuText;
+    }
+
+    public String getNotification() {
+        return notification;
+    }
+
+    public void setNotification(String notification) {
+        this.notification = notification;
+    }
+
+    public String getTroubleTicket() {
+        return troubleTicket;
+    }
+
+    public void setTroubleTicket(String troubleTicket) {
+        this.troubleTicket = troubleTicket;
+    }
+
+    public Integer getTroubleTicketState() {
+        return troubleTicketState;
+    }
+
+    public void setTroubleTicketState(Integer troubleTicketState) {
+        this.troubleTicketState = troubleTicketState;
+    }
+
+    public String getMouseOverText() {
+        return mouseOverText;
+    }
+
+    public void setMouseOverText(String mouseOverText) {
+        this.mouseOverText = mouseOverText;
+    }
+
+    public String getLog() {
+        return log;
+    }
+
+    public void setLog(String log) {
+        this.log = log;
+    }
+
+    public String getDisplay() {
+        return display;
+    }
+
+    public void setDisplay(String display) {
+        this.display = display;
+    }
+
+    public String getAckUser() {
+        return ackUser;
+    }
+
+    public void setAckUser(String ackUser) {
+        this.ackUser = ackUser;
+    }
+
+    public Date getAckTime() {
+        return ackTime;
+    }
+
+    public void setAckTime(Date ackTime) {
+        this.ackTime = ackTime;
+    }
+
+    public Integer getNodeId() {
+        return nodeId;
+    }
+
+    public void setNodeId(Integer nodeId) {
+        this.nodeId = nodeId;
+    }
+
+    public String getNodeLabel() {
+        return nodeLabel;
+    }
+
+    public void setNodeLabel(String nodeLabel) {
+        this.nodeLabel = nodeLabel;
     }
 
     public String getLocation() {
@@ -171,213 +419,5 @@ public class EventDTO {
 
     public void setLocation(String location) {
         this.location = location;
-    }
-
-    public String getEventSnmpHost() {
-        return eventSnmpHost;
-    }
-
-    public void setEventSnmpHost(String eventSnmpHost) {
-        this.eventSnmpHost = eventSnmpHost;
-    }
-
-    public OnmsServiceType getServiceType() {
-        return serviceType;
-    }
-
-    public void setServiceType(OnmsServiceType serviceType) {
-        this.serviceType = serviceType;
-    }
-
-    public String getEventSnmp() {
-        return eventSnmp;
-    }
-
-    public void setEventSnmp(String eventSnmp) {
-        this.eventSnmp = eventSnmp;
-    }
-
-    public String getEventParms() {
-        return eventParms;
-    }
-
-    public void setEventParms(String eventParms) {
-        this.eventParms = eventParms;
-    }
-
-    public Date getEventCreateTime() {
-        return eventCreateTime;
-    }
-
-    public void setEventCreateTime(Date eventCreateTime) {
-        this.eventCreateTime = eventCreateTime;
-    }
-
-    public String getEventDescr() {
-        return eventDescr;
-    }
-
-    public void setEventDescr(String eventDescr) {
-        this.eventDescr = eventDescr;
-    }
-
-    public String getEventLogGroup() {
-        return eventLogGroup;
-    }
-
-    public void setEventLogGroup(String eventLogGroup) {
-        this.eventLogGroup = eventLogGroup;
-    }
-
-    public String getEventLogMsg() {
-        return eventLogMsg;
-    }
-
-    public void setEventLogMsg(String eventLogMsg) {
-        this.eventLogMsg = eventLogMsg;
-    }
-
-    public Integer getEventSeverity() {
-        return eventSeverity;
-    }
-
-    public void setEventSeverity(Integer eventSeverity) {
-        this.eventSeverity = eventSeverity;
-    }
-
-    public Integer getIfIndex() {
-        return ifIndex;
-    }
-
-    public void setIfIndex(Integer ifIndex) {
-        this.ifIndex = ifIndex;
-    }
-
-    public String getEventPathOutage() {
-        return eventPathOutage;
-    }
-
-    public void setEventPathOutage(String eventPathOutage) {
-        this.eventPathOutage = eventPathOutage;
-    }
-
-    public String getEventCorrelation() {
-        return eventCorrelation;
-    }
-
-    public void setEventCorrelation(String eventCorrelation) {
-        this.eventCorrelation = eventCorrelation;
-    }
-
-    public Integer getEventSuppressedCount() {
-        return eventSuppressedCount;
-    }
-
-    public void setEventSuppressedCount(Integer eventSuppressedCount) {
-        this.eventSuppressedCount = eventSuppressedCount;
-    }
-
-    public String getEventOperInstruct() {
-        return eventOperInstruct;
-    }
-
-    public void setEventOperInstruct(String eventOperInstruct) {
-        this.eventOperInstruct = eventOperInstruct;
-    }
-
-    public String getEventAutoAction() {
-        return eventAutoAction;
-    }
-
-    public void setEventAutoAction(String eventAutoAction) {
-        this.eventAutoAction = eventAutoAction;
-    }
-
-    public String getEventOperAction() {
-        return eventOperAction;
-    }
-
-    public void setEventOperAction(String eventOperAction) {
-        this.eventOperAction = eventOperAction;
-    }
-
-    public String getEventOperActionMenuText() {
-        return eventOperActionMenuText;
-    }
-
-    public void setEventOperActionMenuText(String eventOperActionMenuText) {
-        this.eventOperActionMenuText = eventOperActionMenuText;
-    }
-
-    public String getEventNotification() {
-        return eventNotification;
-    }
-
-    public void setEventNotification(String eventNotification) {
-        this.eventNotification = eventNotification;
-    }
-
-    public String getEventTTicket() {
-        return eventTTicket;
-    }
-
-    public void setEventTTicket(String eventTTicket) {
-        this.eventTTicket = eventTTicket;
-    }
-
-    public Integer getEventTTicketState() {
-        return eventTTicketState;
-    }
-
-    public void setEventTTicketState(Integer eventTTicketState) {
-        this.eventTTicketState = eventTTicketState;
-    }
-
-    public String getEventForward() {
-        return eventForward;
-    }
-
-    public void setEventForward(String eventForward) {
-        this.eventForward = eventForward;
-    }
-
-    public String getEventMouseOverText() {
-        return eventMouseOverText;
-    }
-
-    public void setEventMouseOverText(String eventMouseOverText) {
-        this.eventMouseOverText = eventMouseOverText;
-    }
-
-    public String getEventLog() {
-        return eventLog;
-    }
-
-    public void setEventLog(String eventLog) {
-        this.eventLog = eventLog;
-    }
-
-    public String getEventDisplay() {
-        return eventDisplay;
-    }
-
-    public void setEventDisplay(String eventDisplay) {
-        this.eventDisplay = eventDisplay;
-    }
-
-    public String getEventAckUser() {
-        return eventAckUser;
-    }
-
-    public void setEventAckUser(String eventAckUser) {
-        this.eventAckUser = eventAckUser;
-    }
-
-    public Date getEventAckTime() {
-        return eventAckTime;
-    }
-
-    public void setEventAckTime(Date eventAckTime) {
-        this.eventAckTime = eventAckTime;
     }
 }

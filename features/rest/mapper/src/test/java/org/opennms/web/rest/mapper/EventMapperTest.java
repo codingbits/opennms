@@ -39,6 +39,7 @@ import org.opennms.netmgt.model.OnmsSeverity;
 import org.opennms.netmgt.xml.eventconf.Event;
 import org.opennms.test.JUnitConfigurationEnvironment;
 import org.opennms.web.rest.model.AlarmDTO;
+import org.opennms.web.rest.model.EventDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 
@@ -54,13 +55,13 @@ import static org.hamcrest.core.IsEqual.equalTo;
         "classpath:/META-INF/opennms/applicationContext-rest-mappers.xml"
 })
 @JUnitConfigurationEnvironment
-public class AlarmMapperTest {
+public class EventMapperTest {
 
     @Autowired
     private EventConfDao eventConfDao;
 
     @Autowired
-    private AlarmMapper alarmMapper;
+    private EventMapper eventMapper;
 
     @Test
     public void canMapAlarm() {
@@ -69,23 +70,14 @@ public class AlarmMapperTest {
         eventConf.setEventLabel("some-label");
         eventConfDao.addEvent(eventConf);
 
-        OnmsAlarm alarm = new OnmsAlarm();
-        alarm.setId(1);
-
-        OnmsMonitoringSystem distPoller = new OnmsMonitoringSystem();
-        distPoller.setLocation("some-location");
-        alarm.setDistPoller(distPoller);
-
         OnmsEvent event = new OnmsEvent();
         event.setId(1);
         event.setEventUei("some-uei");
         event.setEventSeverity(OnmsSeverity.CRITICAL.getId());
-        alarm.setLastEvent(event);
 
-        AlarmDTO alarmDTO = alarmMapper.alarmToAlarmDTO(alarm);
-        assertThat(alarmDTO.getId(), equalTo(1));
-        assertThat(alarmDTO.getLocation(), equalTo("some-location"));
-        assertThat(alarmDTO.getLastEvent().getId(), equalTo(1));
-        assertThat(alarmDTO.getLastEvent().getLabel(), equalTo("some-label"));
+        EventDTO eventDTO = eventMapper.eventToEventDTO(event);
+
+        assertThat(eventDTO.getId(), equalTo(1));
+        assertThat(eventDTO.getLabel(), equalTo("some-label"));
     }
 }

@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of OpenNMS(R).
  *
- * Copyright (C) 2017-2017 The OpenNMS Group, Inc.
- * OpenNMS(R) is Copyright (C) 1999-2017 The OpenNMS Group, Inc.
+ * Copyright (C) 2006-2014 The OpenNMS Group, Inc.
+ * OpenNMS(R) is Copyright (C) 1999-2014 The OpenNMS Group, Inc.
  *
  * OpenNMS(R) is a registered trademark of The OpenNMS Group, Inc.
  *
@@ -26,33 +26,38 @@
  *     http://www.opennms.com/
  *******************************************************************************/
 
-package org.opennms.web.rest.mapper;
+package org.opennms.web.rest.model;
 
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
-import org.opennms.netmgt.config.api.EventConfDao;
-import org.opennms.netmgt.model.OnmsAlarm;
-import org.opennms.netmgt.model.OnmsEvent;
-import org.opennms.web.rest.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlRootElement;
 
-@Mapper(componentModel = "spring", uses = {EventMapper.class})
-public abstract class AlarmMapper {
+@XmlRootElement(name = "serviceType")
+@XmlAccessorType(XmlAccessType.NONE)
+public class ServiceTypeDTO {
 
-    public static final AlarmMapper INSTANCE = Mappers.getMapper(AlarmMapper.class);
+    @XmlAttribute(name="id")
+    private Integer m_id;
 
-    @Mappings({
-            @Mapping(source = "distPoller.location", target = "location"),
-    })
-    public abstract AlarmDTO alarmToAlarmDTO(OnmsAlarm alarm);
+    @XmlElement(name="name")
+    private String m_name;
 
-    @AfterMapping
-    protected void fillAlarm(OnmsAlarm alarm, @MappingTarget AlarmDTO alarmDTO) {
-        // pass
+    public Integer getId() {
+        return m_id;
+    }
+
+    public void setId(Integer id) {
+        m_id = id;
+    }
+
+    public String getName() {
+        return m_name;
+    }
+
+    public void setName(String name) {
+        m_name = name;
     }
 
 }

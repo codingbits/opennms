@@ -1,8 +1,8 @@
 /*******************************************************************************
  * This file is part of OpenNMS(R).
  *
- * Copyright (C) 2017-2017 The OpenNMS Group, Inc.
- * OpenNMS(R) is Copyright (C) 1999-2017 The OpenNMS Group, Inc.
+ * Copyright (C) 2002-2016 The OpenNMS Group, Inc.
+ * OpenNMS(R) is Copyright (C) 1999-2016 The OpenNMS Group, Inc.
  *
  * OpenNMS(R) is a registered trademark of The OpenNMS Group, Inc.
  *
@@ -25,34 +25,47 @@
  *     http://www.opennms.org/
  *     http://www.opennms.com/
  *******************************************************************************/
+package org.opennms.web.rest.model;
 
-package org.opennms.web.rest.mapper;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 
-import org.mapstruct.AfterMapping;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.Mappings;
-import org.mapstruct.factory.Mappers;
-import org.opennms.netmgt.config.api.EventConfDao;
-import org.opennms.netmgt.model.OnmsAlarm;
-import org.opennms.netmgt.model.OnmsEvent;
-import org.opennms.web.rest.model.*;
-import org.springframework.beans.factory.annotation.Autowired;
+@XmlRootElement(name="parameter")
+@XmlAccessorType(XmlAccessType.NONE)
+public class EventParameterDTO {
 
-@Mapper(componentModel = "spring", uses = {EventMapper.class})
-public abstract class AlarmMapper {
+    @XmlAttribute(name="name")
+    private String name;
 
-    public static final AlarmMapper INSTANCE = Mappers.getMapper(AlarmMapper.class);
+    @XmlAttribute(name="value")
+    private String value;
 
-    @Mappings({
-            @Mapping(source = "distPoller.location", target = "location"),
-    })
-    public abstract AlarmDTO alarmToAlarmDTO(OnmsAlarm alarm);
+    @XmlAttribute(name="type")
+    private String type;
 
-    @AfterMapping
-    protected void fillAlarm(OnmsAlarm alarm, @MappingTarget AlarmDTO alarmDTO) {
-        // pass
+    public String getName() {
+        return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }
