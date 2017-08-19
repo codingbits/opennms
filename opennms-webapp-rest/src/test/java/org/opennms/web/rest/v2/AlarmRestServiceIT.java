@@ -332,7 +332,7 @@ public class AlarmRestServiceIT extends AbstractSpringJerseyRestTestCase {
         sendRequest(GET, url, parseParamData("orderBy=distPoller"), 200);
         // TODO: Cannot sort by parms since they are all stored in one database column
         //sendRequest(GET, url, parseParamData("orderBy=eventParameters"), 200);
-        sendRequest(GET, url, parseParamData("orderBy=eventParms"), 200);
+        //sendRequest(GET, url, parseParamData("orderBy=eventParms"), 200);
         sendRequest(GET, url, parseParamData("orderBy=firstAutomationTime"), 200);
         sendRequest(GET, url, parseParamData("orderBy=firstEventTime"), 200);
         sendRequest(GET, url, parseParamData("orderBy=id"), 200);
@@ -387,7 +387,7 @@ public class AlarmRestServiceIT extends AbstractSpringJerseyRestTestCase {
         sendRequest(GET, url, parseParamData("orderBy=alarm.distPoller"), 200);
         // TODO: Cannot sort by parms since they are all stored in one database column
         //sendRequest(GET, url, parseParamData("orderBy=alarm.eventParameters"), 200);
-        sendRequest(GET, url, parseParamData("orderBy=alarm.eventParms"), 200);
+        //sendRequest(GET, url, parseParamData("orderBy=alarm.eventParms"), 200);
         sendRequest(GET, url, parseParamData("orderBy=alarm.firstAutomationTime"), 200);
         sendRequest(GET, url, parseParamData("orderBy=alarm.firstEventTime"), 200);
         sendRequest(GET, url, parseParamData("orderBy=alarm.id"), 200);
